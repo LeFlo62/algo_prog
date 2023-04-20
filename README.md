@@ -1,1 +1,1 @@
-# aglo_prog
+# algo_prog
