@@ -1,0 +1,10 @@
+<div class="dynamic-dropdowns">
+    <div class="dropdown" *ngFor="let dropdown of dropdowns; let i = index">
+        <label *ngIf="i === 0 || selectedOptions[dropdowns[i - 1].label]">{{dropdown.placeholder}}</label>
+        <select *ngIf="i === 0 || selectedOptions[dropdowns[i - 1].label]" [(ngModel)]="selectedOptions[dropdown.label]">
+          <option *ngFor="let option of dropdown.options" [value]="option">{{ option }}</option>
+        </select>
+    </div>
+    
+    <button [disabled]="getOwnPropertyNames(selectedOptions).length !== dropdowns.length">Submit</button>    
+</div>

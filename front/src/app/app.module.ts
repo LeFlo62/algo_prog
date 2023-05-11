@@ -5,16 +5,21 @@ import { HttpClientModule } from '@angular/common/http';
 import { AppComponent } from './app.component';
 
 import { ButtonModule } from 'primeng/button';
+import { DynamicDropdownsComponent } from './dynamic-dropdowns/dynamic-dropdowns.component';
+
+import { FormsModule } from '@angular/forms';
 
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    DynamicDropdownsComponent
   ],
   imports: [
     BrowserModule,
     HttpClientModule,
-    ButtonModule
+    ButtonModule,
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
