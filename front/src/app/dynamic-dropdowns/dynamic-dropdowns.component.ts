@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 interface Dropdown {
   label: string;
@@ -15,6 +16,7 @@ interface SelectedOptions {
   styleUrls: ['./dynamic-dropdowns.component.scss']
 })
 export class DynamicDropdownsComponent implements OnInit {
+
   ngOnInit(): void {
     throw new Error('Method not implemented.');
   }
@@ -45,4 +47,13 @@ export class DynamicDropdownsComponent implements OnInit {
   getOwnPropertyNames(obj: {}) {
     return Object.getOwnPropertyNames(obj);
   };
+
+  constructor(private router: Router) { }
+
+  onClick() {
+    this.router.navigate(["/dynamic-dropdowns.component.ts"]);
+  }
+
+
 }
+

@@ -6,5 +6,5 @@
         </select>
     </div>
     
-    <button [disabled]="getOwnPropertyNames(selectedOptions).length !== dropdowns.length">Submit</button>    
+    <button (click)="onClick()">Submit</button>    
 </div>

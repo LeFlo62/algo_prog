@@ -8,12 +8,14 @@ import { ButtonModule } from 'primeng/button';
 import { DynamicDropdownsComponent } from './dynamic-dropdowns/dynamic-dropdowns.component';
 
 import { FormsModule } from '@angular/forms';
+import { MapsComponent } from './maps/maps.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
-    DynamicDropdownsComponent
+    DynamicDropdownsComponent,
+    MapsComponent
   ],
   imports: [
     BrowserModule,
