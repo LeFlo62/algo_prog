@@ -34,7 +34,7 @@ export class DynamicDropdownsComponent implements OnInit {
     {
       label: 'Type',
       options: ['Monument', 'Nature', 'Museum'],
-      placeholder: 'Select the type of things you want to visit'
+      placeholder: 'Select the type of places you want to visit'
     }
   ];
 
@@ -51,7 +51,7 @@ export class DynamicDropdownsComponent implements OnInit {
   constructor(private router: Router) { }
 
   onClick() {
-    this.router.navigate(["/dynamic-dropdowns.component.ts"]);
+    this.router.navigate(["./maps.component.html"]);
   }
 
 
