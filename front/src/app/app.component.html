@@ -1,8 +1,39 @@
 <div class="content" [formGroup]="form">
+    <h1>Stay in Paris</h1>
     <div class="dropdowns">
-        <p-dropdown styleClass="w-full" [options]="days" formControlName="days" optionLabel="name" placeholder="Days"></p-dropdown>
-        <p-dropdown *ngIf="form.value.days" styleClass="w-full" [options]="transports" formControlName="transports" optionLabel="name" optionValue="value" placeholder="Transports"></p-dropdown>
-        <p-dropdown *ngIf="form.value.transports" styleClass="w-full" [options]="timeSpent" formControlName="timeSpent" optionLabel="name" optionValue="value" placeholder="Time spent on"></p-dropdown>
-        <p-dropdown *ngIf="form.value.timeSpent" styleClass="w-full" [options]="artworks" formControlName="artworks" placeholder="Artwork"></p-dropdown>
+        <p-dropdown styleClass="w-full" [options]="days" formControlName="days" optionLabel="name" placeholder="Stay duration">
+            <ng-template pTemplate="selectedItem">
+                <div *ngIf="form.value.days">
+                    <div>Stay : {{ form.value.days.name }}</div>
+                </div>
+            </ng-template>
+        </p-dropdown>
+        <p-dropdown *ngIf="form.value.days" styleClass="w-full" [options]="transports" formControlName="transports" optionLabel="name" placeholder="Transports">
+            <ng-template pTemplate="selectedItem">
+                <div *ngIf="form.value.transports">
+                    <div>Transport mode : {{ form.value.transports.name }} ({{ form.value.transports.value }} km/h)</div>
+                </div>
+            </ng-template>
+        </p-dropdown>
+        <p-dropdown *ngIf="form.value.transports" styleClass="w-full" [options]="timeSpent" formControlName="timeSpent" optionLabel="name" placeholder="Time spent per place">
+            <ng-template pTemplate="selectedItem">
+                <div *ngIf="form.value.timeSpent">
+                    <div>Average time : {{ form.value.timeSpent.name }}</div>
+                </div>
+            </ng-template>
+        </p-dropdown>
+        <p-dropdown *ngIf="form.value.timeSpent" styleClass="w-full" [options]="artworks" formControlName="artworks" placeholder="Artwork">
+            <ng-template pTemplate="selectedItem">
+                <div *ngIf="form.value.artworks">
+                    <div>Visiting : {{ form.value.artworks }}</div>
+                </div>
+            </ng-template>
+        </p-dropdown>
+        <div *ngIf="form.value.artworks">
+            <p>Duration of a day</p>
+            <p>{{form.value.dayRange[0]}} h - {{form.value.dayRange[1]}} h</p>
+            <p-slider class="w-full" formControlName="dayRange" [min]="7" [max]="22" [step]="1" [range]="true"></p-slider>
+        </div>
+        <button *ngIf="form.value.artworks" style="margin: auto" pButton type="button" label="Calculate" (click)="calculate()"></button>
     </div>
 </div>

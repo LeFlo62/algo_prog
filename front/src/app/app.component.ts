@@ -24,10 +24,10 @@ export class AppComponent {
           {'name': '13 Days', value: 13},
           {'name': '14 Days', value: 14}];
 
-  transports = [{'name': 'Car', value: 20},
-               {'name': 'Subway', value: 18},
-               {'name': 'Foot', value: 5},
-               {'name': 'Bike', value: 14}];
+  transports = [{'name': '🚙 Car', value: 20},
+               {'name': '🚋 Subway', value: 18},
+               {'name': '🚶 Foot', value: 5},
+               {'name': '🚲 Bike', value: 14}];
 
   timeSpent = [{'name': '1 Hour', value: 1},
                {'name': '2 Hours', value: 2},
@@ -41,13 +41,18 @@ export class AppComponent {
     days : new FormControl(''),
     transports : new FormControl(''),
     timeSpent : new FormControl(''),
-    artworks : new FormControl('')
+    artworks : new FormControl(''),
+    dayRange : new FormControl([9, 19])
   });
 
   constructor(private listService: ListService) {
     this.listService.getArtworks().subscribe((data : string[]) => {
       this.artworks = data;
     });
+  }
+
+  calculate() {
+
   }
 
 }

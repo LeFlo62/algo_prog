@@ -10,8 +10,8 @@ public class ResearchDTO {
     private int stayDuration;
     private double transportSpeed;
     private int startDay;
-    private  int endDay;
-    private  int timeSpent;
-    private  String artworkType;
+    private int endDay;
+    private int timeSpent;
+    private String artworkType;
 
 }

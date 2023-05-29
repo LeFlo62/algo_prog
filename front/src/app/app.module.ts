@@ -3,6 +3,8 @@ import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { SliderModule } from 'primeng/slider';
+import { InputTextModule } from 'primeng/inputtext';
 
 
 
@@ -23,8 +25,10 @@ import { DropdownModule } from 'primeng/dropdown';
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
+    InputTextModule,
     ButtonModule,
-    DropdownModule
+    DropdownModule,
+    SliderModule
   ],
   providers: [],
   bootstrap: [AppComponent]
