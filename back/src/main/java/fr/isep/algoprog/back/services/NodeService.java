@@ -4,9 +4,6 @@ import fr.isep.algoprog.back.entities.Node;
 import fr.isep.algoprog.back.model.Graph;
 import fr.isep.algoprog.back.repositories.NodeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -53,13 +50,13 @@ public class NodeService {
             List<Integer> pathAlreadyTaken = path.stream().map(nodes::indexOf).collect(Collectors.toList());
 
             List<Integer> shortestPath = findShortestPathOfLengthN(graph, pathAlreadyTaken, startNode, maxPOI);
-            System.out.println("Shortest path: " + Arrays.toString(shortestPath.toArray()));
+//            System.out.println("Shortest path: " + Arrays.toString(shortestPath.toArray()));
             List<Node> selectedNodes = shortestPath.stream().map(nodes::get).collect(Collectors.toList());
 
             path.addAll(createPath(selectedNodes));
         }
-        System.out.println("-----------");
-        System.out.println(Arrays.toString(path.stream().map(node -> node.getTags().getName()).toArray()));
+//        System.out.println("-----------");
+//        System.out.println(Arrays.toString(path.stream().map(node -> node.getTags().getName()).toArray()));
 
         return path;
     }
@@ -153,10 +150,10 @@ public class NodeService {
                 pathLength = interPathLength;
             }
         }
-        System.out.println("Micruit: " + Arrays.toString(path.toArray()));
+//        System.out.println("Micruit: " + Arrays.toString(path.toArray()));
         Collections.rotate(path, -path.indexOf(0));
         path.add(0);
-        System.out.println("Micruit2: " + Arrays.toString(path.toArray()));
+//        System.out.println("Micruit2: " + Arrays.toString(path.toArray()));
         List<Node> pathNode = new ArrayList<>();
         for (int i = 0; i < path.size(); ++i) {
             pathNode.add(toVisit.get(path.get(i)));
