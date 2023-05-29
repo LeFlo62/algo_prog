@@ -1,6 +1,7 @@
 package fr.isep.algoprog.back.services;
 
 import fr.isep.algoprog.back.entities.Node;
+import fr.isep.algoprog.back.model.Graph;
 import fr.isep.algoprog.back.repositories.NodeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
@@ -9,6 +10,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class NodeService {
@@ -28,25 +30,58 @@ public class NodeService {
         int maxPOI = (endDay - startDay) / timeSpent;
 
         List<Node> nodes = nodeRepository.getNodesWithArtworkStyle(artworkType);
-        double[][] dinstanceMatrix = new double[nodes.size()][nodes.size()];
+        double[][] distanceMatrix = new double[nodes.size()][nodes.size()];
         for (int i = 0; i < nodes.size(); ++i) {
             for (int j = 0; j < i; ++j) {
                 Node node1 = nodes.get(i);
                 Node node2 = nodes.get(j);
 
                 double distance = getDistance(node1, node2);
-                dinstanceMatrix[i][j] = distance;
-                dinstanceMatrix[j][i] = distance;
+                distanceMatrix[i][j] = distance / transportSpeed;
+                distanceMatrix[j][i] = distance / transportSpeed;
             }
         }
 
+        //TODO prendre la node la plus proche de leur hotel
+        int startNode = RANDOM.nextInt(nodes.size());
+
+        Graph graph = new Graph(distanceMatrix);
 
         List<Node> path = new ArrayList<>();
 
         for (int i = 0; i < stayDuration; ++i) {
+            List<Integer> pathAlreadyTaken = path.stream().map(nodes::indexOf).collect(Collectors.toList());
 
-            //double transportTime = distanceMatrix[i][j] / transportSpeed;
-            path.addAll(createPath(nodes));
+            List<Integer> shortestPath = findShortestPathOfLengthN(graph, pathAlreadyTaken, startNode, maxPOI);
+            System.out.println("Shortest path: " + Arrays.toString(shortestPath.toArray()));
+            List<Node> selectedNodes = shortestPath.stream().map(nodes::get).collect(Collectors.toList());
+
+            path.addAll(createPath(selectedNodes));
+        }
+        System.out.println("-----------");
+        System.out.println(Arrays.toString(path.stream().map(node -> node.getTags().getName()).toArray()));
+
+        return path;
+    }
+
+    private List<Integer> findShortestPathOfLengthN(Graph graph, List<Integer> pathAlreadyTaken, int startNode, int maxPOI) {
+        List<Integer> path = new ArrayList<>();
+
+        path.add(startNode);
+        for(int i = 0; i < maxPOI; ++i){
+            int nextMinNode = -1;
+            double nextMinDistance = Double.POSITIVE_INFINITY;
+            for(int j = 0; j < graph.getVertexCount(); ++j){
+                if(!path.contains(j) && !pathAlreadyTaken.contains(j)){
+                    double distance = graph.getDistance(path.get(i), j);
+                    if(distance < nextMinDistance){
+                        nextMinDistance = distance;
+                        nextMinNode = j;
+                    }
+                }
+            }
+
+            path.add(nextMinNode);
         }
 
         return path;
@@ -78,11 +113,11 @@ public class NodeService {
 
     public List<Node> createPath(List<Node> toVisit) {
         List<Integer> path = new ArrayList<>();
+
         for (int i = 0; i < toVisit.size(); ++i) {
             path.add(i);
         }
         Collections.shuffle(path);
-        path.add(path.get(0));
 
         int n = 1000;
         double pathLength = distanceForPath(toVisit, path);
@@ -90,7 +125,7 @@ public class NodeService {
             double interPathLength = pathLength;
             for (int l = 0; l < n; ++l) {
                 List<Integer> clone = new ArrayList<>();
-                Collections.copy(path, clone);
+                clone.addAll(path);
 
                 int node1 = RANDOM.nextInt(toVisit.size());
                 int node2 = RANDOM.nextInt(toVisit.size());
@@ -118,9 +153,13 @@ public class NodeService {
                 pathLength = interPathLength;
             }
         }
+        System.out.println("Micruit: " + Arrays.toString(path.toArray()));
+        Collections.rotate(path, -path.indexOf(0));
+        path.add(0);
+        System.out.println("Micruit2: " + Arrays.toString(path.toArray()));
         List<Node> pathNode = new ArrayList<>();
-        for (int i = 0; i < toVisit.size(); ++i) {
-            pathNode.set(i, toVisit.get(path.get(i)));
+        for (int i = 0; i < path.size(); ++i) {
+            pathNode.add(toVisit.get(path.get(i)));
         }
         return pathNode;
     }

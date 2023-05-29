@@ -11,6 +11,6 @@ import java.util.List;
 @Repository
 public interface NodeRepository extends MongoRepository<Node, String> {
 
-    @Query("{\"tags.artwork_type\": ?1}")
+    @Query("{\"tags.artwork_type\": ?0}")
     List<Node> getNodesWithArtworkStyle(String artworkType);
 }
