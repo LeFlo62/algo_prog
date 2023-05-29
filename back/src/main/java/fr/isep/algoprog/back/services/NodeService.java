@@ -171,4 +171,7 @@ public class NodeService {
         return distance;
     }
 
+    public List<String> getArtworks() {
+        return nodeRepository.getArtworks();
+    }
 }

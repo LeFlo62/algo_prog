@@ -12,7 +12,7 @@ export class ListService {
 
   constructor(private http : HttpClient) { }
 
-  getCities() : Observable<City[]>{
-    return this.http.get<City[]>(this.apiUrl + "list/cities");
+  getArtworks() : Observable<string[]>{
+    return this.http.get<string[]>(this.apiUrl + "list/artworks");
   }
 }
