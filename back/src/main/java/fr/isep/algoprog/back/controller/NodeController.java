@@ -25,6 +25,11 @@ public class NodeController {
         return nodeMapper.toDTO(nodeService.getPath(researchDTO.getStayDuration(), researchDTO.getTransportSpeed(), researchDTO.getStartDay(), researchDTO.getEndDay(), researchDTO.getTimeSpent(), researchDTO.getType()));
     }
 
+    /**
+     * USED IN DEV ONLY
+     * @param researchDTO
+     * @return
+     */
     @GetMapping("/geopath")
     public FeatureCollection geoPath(ResearchDTO researchDTO){
         return geoJSONMapper.toDTO(

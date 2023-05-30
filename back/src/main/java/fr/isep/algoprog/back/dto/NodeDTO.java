@@ -10,6 +10,7 @@ public class NodeDTO {
     private String id;
     private double lon;
     private double lat;
+    private String name;
     private String type;
     private String description;
 

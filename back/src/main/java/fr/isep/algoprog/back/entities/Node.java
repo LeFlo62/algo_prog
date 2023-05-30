@@ -15,6 +15,7 @@ public class Node {
     private double lon;
     private double lat;
     private String type;
+    private String name;
     private String description;
 
 }

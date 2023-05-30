@@ -3,5 +3,6 @@ export interface Node {
     lat: number;
     lon: number;
     type: string;
+    name: string;
     description?: string;
 }

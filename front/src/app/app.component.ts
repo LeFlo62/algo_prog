@@ -86,7 +86,7 @@ export class AppComponent {
         let i = 0;
         for (let node of data) {
           let marker = new Leaflet.Marker([node.lat, node.lon]);
-          marker.bindTooltip(node.type);
+          marker.bindTooltip(node.name);
           markers.push(marker);
           if (i > 0) {
             let line = new Leaflet.Polyline([[data[i - 1].lat, data[i - 1].lon], [node.lat, node.lon]]);
