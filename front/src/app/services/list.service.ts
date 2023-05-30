@@ -1,6 +1,5 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { City } from '../data/lists';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -12,7 +11,7 @@ export class ListService {
 
   constructor(private http : HttpClient) { }
 
-  getArtworks() : Observable<string[]>{
-    return this.http.get<string[]>(this.apiUrl + "list/artworks");
+  getTypes() : Observable<string[]>{
+    return this.http.get<string[]>(this.apiUrl + "list/types");
   }
 }

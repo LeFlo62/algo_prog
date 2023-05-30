@@ -26,7 +26,7 @@ public class NodeService {
     public List<Node> getPath(int stayDuration, double transportSpeed, int startDay, int endDay, int timeSpent, String artworkType) {
         int maxPOI = (endDay - startDay) / timeSpent;
 
-        List<Node> nodes = nodeRepository.getNodesWithArtworkStyle(artworkType);
+        List<Node> nodes = nodeRepository.getNodesWithType(artworkType);
         double[][] distanceMatrix = new double[nodes.size()][nodes.size()];
         for (int i = 0; i < nodes.size(); ++i) {
             for (int j = 0; j < i; ++j) {
@@ -171,7 +171,7 @@ public class NodeService {
         return distance;
     }
 
-    public List<String> getArtworks() {
-        return nodeRepository.getArtworks();
+    public List<String> getTypes() {
+        return nodeRepository.getTypes();
     }
 }

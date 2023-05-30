@@ -22,13 +22,13 @@ public class NodeController {
 
     @GetMapping("/searchPath")
     public List<NodeDTO> searchPath(ResearchDTO researchDTO){
-        return nodeMapper.toDTO(nodeService.getPath(researchDTO.getStayDuration(), researchDTO.getTransportSpeed(), researchDTO.getStartDay(), researchDTO.getEndDay(), researchDTO.getTimeSpent(), researchDTO.getArtworkType()));
+        return nodeMapper.toDTO(nodeService.getPath(researchDTO.getStayDuration(), researchDTO.getTransportSpeed(), researchDTO.getStartDay(), researchDTO.getEndDay(), researchDTO.getTimeSpent(), researchDTO.getType()));
     }
 
     @GetMapping("/geopath")
     public FeatureCollection geoPath(ResearchDTO researchDTO){
         return geoJSONMapper.toDTO(
-                nodeService.getPath(researchDTO.getStayDuration(), researchDTO.getTransportSpeed(), researchDTO.getStartDay(), researchDTO.getEndDay(), researchDTO.getTimeSpent(), researchDTO.getArtworkType())
+                nodeService.getPath(researchDTO.getStayDuration(), researchDTO.getTransportSpeed(), researchDTO.getStartDay(), researchDTO.getEndDay(), researchDTO.getTimeSpent(), researchDTO.getType())
                 , (researchDTO.getEndDay() - researchDTO.getStartDay())/researchDTO.getTimeSpent()+1
         );
     }

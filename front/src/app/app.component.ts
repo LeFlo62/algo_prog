@@ -2,6 +2,11 @@ import { Component } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { ListService } from './services/list.service';
 
+
+import * as Leaflet from 'leaflet';
+import { NodeService } from './services/node.service';
+import { Node } from './data/node';
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -9,6 +14,18 @@ import { ListService } from './services/list.service';
 })
 export class AppComponent {
   
+  layers : Leaflet.Layer[] = [
+    new Leaflet.TileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '&copy; OpenStreetMap contributors'
+    } as Leaflet.TileLayerOptions),
+  ];
+
+  options: Leaflet.MapOptions = {
+    layers: this.layers,
+    zoom: 12,
+    center: new Leaflet.LatLng(48.85341, 2.3488)
+  };
+
   days = [{'name': '1 Day', value: 1},
           {'name': '2 Days', value: 2},
           {'name': '3 Days', value: 3},
@@ -35,24 +52,64 @@ export class AppComponent {
                {'name': '4 Hours', value: 4},
                {'name': '5 Hours', value: 5}];
 
-  artworks : string[] = [];
+  types : string[] = [];
 
   form : FormGroup = new FormGroup({
     days : new FormControl(''),
     transports : new FormControl(''),
     timeSpent : new FormControl(''),
-    artworks : new FormControl(''),
+    type : new FormControl(''),
     dayRange : new FormControl([9, 19])
   });
 
-  constructor(private listService: ListService) {
-    this.listService.getArtworks().subscribe((data : string[]) => {
-      this.artworks = data;
+  received : boolean = false;
+
+  constructor(private listService: ListService, private nodeService: NodeService) {
+    this.listService.getTypes().subscribe((data : string[]) => {
+      this.types = data;
     });
   }
 
   calculate() {
+      let days = this.form.value.days.value;
+      let transports = this.form.value.transports.value;
+      let timeSpent = this.form.value.timeSpent.value;
+      let type = this.form.value.type;
+      let dayRange = this.form.value.dayRange;
 
+      this.received = false;
+      this.nodeService.getPath(days, transports, dayRange[0], dayRange[1], timeSpent, type).subscribe((data : Node[]) => {
+        this.received = true;
+        this.resetLayers();
+        let markers : Leaflet.Marker[] = [];
+        let lines : Leaflet.Polyline[] = [];
+        let i = 0;
+        for (let node of data) {
+          let marker = new Leaflet.Marker([node.lat, node.lon]);
+          marker.bindTooltip(node.type);
+          markers.push(marker);
+          if (i > 0) {
+            let line = new Leaflet.Polyline([[data[i - 1].lat, data[i - 1].lon], [node.lat, node.lon]]);
+            lines.push(line);
+          }
+          i++;
+        }
+        this.layers.push(new Leaflet.LayerGroup(markers));
+        this.layers.push(new Leaflet.LayerGroup(lines));
+      });
+  }
+
+  resetLayers() {
+    this.layers = [
+      new Leaflet.TileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; OpenStreetMap contributors'
+      } as Leaflet.TileLayerOptions),
+    ];
+    this.options = {
+      layers: this.layers,
+      zoom: 12,
+      center: new Leaflet.LatLng(48.85341, 2.3488)
+    };
   }
 
 }

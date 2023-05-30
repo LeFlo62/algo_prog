@@ -22,18 +22,20 @@
                 </div>
             </ng-template>
         </p-dropdown>
-        <p-dropdown *ngIf="form.value.timeSpent" styleClass="w-full" [options]="artworks" formControlName="artworks" placeholder="Artwork">
+        <p-dropdown *ngIf="form.value.timeSpent" styleClass="w-full" [options]="types" formControlName="type" placeholder="Artwork">
             <ng-template pTemplate="selectedItem">
-                <div *ngIf="form.value.artworks">
-                    <div>Visiting : {{ form.value.artworks }}</div>
+                <div *ngIf="form.value.type">
+                    <div>Visiting : {{ form.value.type }}</div>
                 </div>
             </ng-template>
         </p-dropdown>
-        <div *ngIf="form.value.artworks">
+        <div *ngIf="form.value.type">
             <p>Duration of a day</p>
             <p>{{form.value.dayRange[0]}} h - {{form.value.dayRange[1]}} h</p>
             <p-slider class="w-full" formControlName="dayRange" [min]="7" [max]="22" [step]="1" [range]="true"></p-slider>
         </div>
-        <button *ngIf="form.value.artworks" style="margin: auto" pButton type="button" label="Calculate" (click)="calculate()"></button>
+        <button *ngIf="form.value.type" style="margin: auto" pButton type="button" label="Calculate" (click)="calculate()"></button>
+        <div *ngIf="received" class="map" leaflet [leafletOptions]="options"></div>
+
     </div>
 </div>

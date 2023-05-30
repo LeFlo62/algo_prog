@@ -12,6 +12,6 @@ public class ResearchDTO {
     private int startDay;
     private int endDay;
     private int timeSpent;
-    private String artworkType;
+    private String type;
 
 }

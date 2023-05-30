@@ -5,8 +5,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { SliderModule } from 'primeng/slider';
 import { InputTextModule } from 'primeng/inputtext';
-
-
+import { LeafletModule } from '@asymmetrik/ngx-leaflet';
 
 import { AppComponent } from './app.component';
 
@@ -28,7 +27,8 @@ import { DropdownModule } from 'primeng/dropdown';
     InputTextModule,
     ButtonModule,
     DropdownModule,
-    SliderModule
+    SliderModule,
+    LeafletModule
   ],
   providers: [],
   bootstrap: [AppComponent]
