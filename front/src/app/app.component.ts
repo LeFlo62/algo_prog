@@ -14,6 +14,30 @@ import { Node } from './data/node';
 })
 export class AppComponent {
   
+  createIcon(color : string) : Leaflet.Icon {
+    return new Leaflet.Icon({
+      iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-' + color + '.png',
+      shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
+      iconSize: [25, 41],
+      iconAnchor: [12, 41],
+      popupAnchor: [1, -34],
+      shadowSize: [41, 41]
+    });
+  }
+
+  icons : Leaflet.Icon[] = [
+    this.createIcon('red'),
+    this.createIcon('blue'),
+    this.createIcon('green'),
+    this.createIcon('orange'),
+    this.createIcon('yellow'),
+    this.createIcon('violet'),
+    this.createIcon('grey'),
+    this.createIcon('black'),
+    this.createIcon('gold')
+  ];
+
+
   layers : Leaflet.Layer[] = [
     new Leaflet.TileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       attribution: '&copy; OpenStreetMap contributors'
@@ -86,6 +110,7 @@ export class AppComponent {
         let i = 0;
         for (let node of data) {
           let marker = new Leaflet.Marker([node.lat, node.lon]);
+          marker.setIcon(this.icons[i % this.icons.length]);
           marker.bindTooltip(node.type);
           markers.push(marker);
           if (i > 0) {
