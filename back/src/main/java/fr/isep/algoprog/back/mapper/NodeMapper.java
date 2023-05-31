@@ -16,6 +16,7 @@ public class NodeMapper {
                 .lat(entity.getLat())
                 .lon(entity.getLon())
                 .type(entity.getType())
+                .name(entity.getName())
                 .description(entity.getDescription())
                 .build();
     }
