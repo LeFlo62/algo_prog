@@ -14,6 +14,15 @@ import { Node } from './data/node';
 })
 export class AppComponent {
   
+  houseIcon = new Leaflet.Icon({
+    iconUrl: 'https://cdn-icons-png.flaticon.com/128/609/609803.png',
+    shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
+    iconSize: [25, 25],
+    iconAnchor: [12, 12],
+    popupAnchor: [1, -34],
+    shadowSize: [41, 41]
+  });
+
   createIcon(color : string) : Leaflet.Icon {
     return new Leaflet.Icon({
       iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-' + color + '.png',
@@ -107,21 +116,47 @@ export class AppComponent {
         this.resetLayers();
         let markers : Leaflet.Marker[] = [];
         let lines : Leaflet.Polyline[] = [];
-        let i = 0;
-        for (let node of data) {
-          let marker = new Leaflet.Marker([node.lat, node.lon]);
-          marker.setIcon(this.icons[i % this.icons.length]);
-          marker.bindTooltip(node.name);
-          markers.push(marker);
-          if (i > 0) {
-            let line = new Leaflet.Polyline([[data[i - 1].lat, data[i - 1].lon], [node.lat, node.lon]]);
-            lines.push(line);
+        let day : number = 0;
+
+        let lastNode : Node = data[0];
+
+        for (let i = 1; i < data.length; ++i) {
+
+          let node : Node = data[i];
+
+          
+          if(lastNode.id === node.id) {
+            day++;
+            markers.splice(markers.length - 1, 1);
+            continue;
           }
-          i++;
+
+          let icon = this.icons[day % this.icons.length];
+
+          let marker = this.createMarker(node, icon);
+
+          markers.push(marker);
+
+          let line = new Leaflet.Polyline([[data[i - 1].lat, data[i - 1].lon], [node.lat, node.lon]]);
+          lines.push(line);
+
+          lastNode = node;
         }
+        markers[markers.length - 1].setIcon(this.houseIcon);
         this.layers.push(new Leaflet.LayerGroup(markers));
         this.layers.push(new Leaflet.LayerGroup(lines));
       });
+  }
+
+  createMarker(node : Node, icon : Leaflet.Icon) : Leaflet.Marker {
+    let marker = new Leaflet.Marker([node.lat, node.lon]);
+    marker.setIcon(icon);
+    marker.bindTooltip(node.name);
+    if(node.description){
+      marker.bindTooltip(node.name + '<br> <u>Click to see more</u>');
+      marker.bindPopup(node.description);
+    }
+    return marker;
   }
 
   resetLayers() {
