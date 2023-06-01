@@ -11,6 +11,8 @@ import { AppComponent } from './app.component';
 
 import { ButtonModule } from 'primeng/button';
 import { DropdownModule } from 'primeng/dropdown';
+import { DialogModule } from 'primeng/dialog';
+
 
 
 
@@ -28,7 +30,8 @@ import { DropdownModule } from 'primeng/dropdown';
     ButtonModule,
     DropdownModule,
     SliderModule,
-    LeafletModule
+    LeafletModule,
+    DialogModule
   ],
   providers: [],
   bootstrap: [AppComponent]

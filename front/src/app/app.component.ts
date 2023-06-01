@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { ListService } from './services/list.service';
 
@@ -14,6 +14,9 @@ import { Node } from './data/node';
 })
 export class AppComponent {
   
+  @ViewChild('map')
+  map! : Leaflet.Map;
+
   houseIcon = new Leaflet.Icon({
     iconUrl: 'https://cdn-icons-png.flaticon.com/128/609/609803.png',
     shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
@@ -170,6 +173,11 @@ export class AppComponent {
       zoom: 12,
       center: new Leaflet.LatLng(48.85341, 2.3488)
     };
+  }
+
+  onMapReady(map : Leaflet.Map) {
+    window.dispatchEvent(new Event('resize'));
+    map.invalidateSize();
   }
 
 }

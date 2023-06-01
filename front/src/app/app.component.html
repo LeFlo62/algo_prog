@@ -35,7 +35,9 @@
             <p-slider class="w-full" formControlName="dayRange" [min]="7" [max]="22" [step]="1" [range]="true"></p-slider>
         </div>
         <button *ngIf="form.value.type" style="margin: auto" pButton type="button" label="Calculate" (click)="calculate()"></button>
-        <div *ngIf="received" class="map" leaflet [leafletOptions]="options"></div>
-
+        
+        <p-dialog header="Map" [(visible)]="received" [modal]="true" [draggable]="false" [resizable]="false">
+            <div class="map" #map *ngIf="received" leaflet [leafletOptions]="options" (leafletMapReady)="onMapReady($event)"></div>
+        </p-dialog>
     </div>
 </div>
